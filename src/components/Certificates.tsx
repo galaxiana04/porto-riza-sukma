@@ -1,20 +1,19 @@
 import { useState } from "react";
 import { Award, X } from "lucide-react";
 
-// Data sertifikat yang diambil dari folder assets kamu
 const certificatesData = {
   "Sertifikat Pencapaian": [
     {
       title: "Peserta Kamadiksi Awards",
       issuer: "Universitas Politeknik Negeri Semarang",
       date: "2024",
-      image: "src/assets/Pencapaian/PesertaKamadiksiAwards.jpg",
+      image: "/assets/Pencapaian/PesertaKamadiksiAwards.jpg",
     },
     {
       title: "Magang dan Studi Independen Bersertifikat",
       issuer: "Kemendikbud",
       date: "2024",
-      image: "src/assets/Pencapaian/MSIB-7.png",
+      image: "/assets/Pencapaian/MSIB-7.png",
     },
   ],
 
@@ -23,43 +22,43 @@ const certificatesData = {
       title: "MTCA",
       issuer: "MikroTik",
       date: "2025",
-      image: "src/assets/Pelatihan/MTCA.png",
+      image: "/assets/Pelatihan/MTCA.png",
     },
     {
       title: "Database Programming with SQL",
       issuer: "Oracle Academy",
       date: "2024",
-      image: "src/assets/Pelatihan/Database Programming with SQL.jpg",
+      image: "/assets/Pelatihan/Database Programming with SQL.jpg",
     },
     {
       title: "Database Design",
       issuer: "Oracle Academy",
       date: "2024",
-      image: "src/assets/Pelatihan/DatabaseDesign.jpg",
+      image: "/assets/Pelatihan/DatabaseDesign.jpg",
     },
     {
       title: "Sharing Technology",
       issuer: "HME Polines",
       date: "2024",
-      image: "src/assets/Pelatihan/Sharing Technology.jpg",
+      image: "/assets/Pelatihan/Sharing Technology.jpg",
     },
     {
       title: "JMP",
       issuer: "BNSP",
       date: "2024",
-      image: "src/assets/Pelatihan/JMP.jpg",
+      image: "/assets/Pelatihan/JMP.jpg",
     },
     {
       title: "UI/UX Fundamental",
       issuer: "MySkill",
       date: "2024",
-      image: "src/assets/Pelatihan/UX fundamental.jpg",
+      image: "/assets/Pelatihan/UX fundamental.jpg",
     },
     {
       title: "LMOM",
       issuer: "HME Polines",
       date: "2022",
-      image: "src/assets/Pelatihan/LMOM.jpg",
+      image: "/assets/Pelatihan/LMOM.jpg",
     },
   ],
 
@@ -68,37 +67,37 @@ const certificatesData = {
       title: "Pekan Literasi",
       issuer: "HME Polines",
       date: "2024",
-      image: "src/assets/Panitia/PekanLiterasi.jpg",
+      image: "/assets/Panitia/PekanLiterasi.jpg",
     },
     {
       title: "LMOM",
       issuer: "HME Polines",
       date: "2024",
-      image: "src/assets/Panitia/LMOM.jpg",
+      image: "/assets/Panitia/LMOM.jpg",
     },
     {
       title: "Campus Fair",
       issuer: "SMAN 1 Babadan",
       date: "2023",
-      image: "src/assets/Panitia/CampusFair.jpg",
+      image: "/assets/Panitia/CampusFair.jpg",
     },
     {
       title: "ECC 2023",
       issuer: "HME Polines",
       date: "2023",
-      image: "src/assets/Panitia/ECC2023.jpg",
+      image: "/assets/Panitia/ECC2023.jpg",
     },
     {
       title: "Seminar Nasional",
       issuer: "HME Polines",
       date: "2023",
-      image: "src/assets/Panitia/Semnas.jpg",
+      image: "/assets/Panitia/Semnas.jpg",
     },
     {
       title: "FKBSE",
       issuer: "HME Polines",
       date: "2023",
-      image: "src/assets/Panitia/FKBSE.jpg",
+      image: "/assets/Panitia/FKBSE.jpg",
     },
   ],
 
@@ -107,25 +106,24 @@ const certificatesData = {
       title: "Sekretaris Jenderal BPM Polines",
       issuer: "BPM",
       date: "2024",
-      image: "src/assets/Pengalaman/SekjendBPM.jpg",
+      image: "/assets/Pengalaman/SekjendBPM.jpg",
     },
     {
       title: "Staf Bidang Kaderisasi",
       issuer: "Himpunan Mahasiswa Elektro",
       date: "2023",
-      image: "src/assets/Pengalaman/Sertifikat HME.png",
+      image: "/assets/Pengalaman/Sertifikat HME.png",
     },
     {
       title: "Engineeering Intern",
       issuer: "PT Rekaindo Global Jasa",
       date: "2024",
-      image: "src/assets/Pengalaman/engineering_intern.png",
+      image: "/assets/Pengalaman/engineering_intern.png",
     },
   ],
 };
 
 const Certificates = () => {
-  // state untuk modal
   const [selectedCert, setSelectedCert] = useState(null);
 
   return (
@@ -159,7 +157,6 @@ const Certificates = () => {
             <h3 className="text-2xl font-semibold mb-6 text-sky-400 text-center">
               {category}
             </h3>
-
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {items.map((cert, index) => (
                 <div
@@ -177,7 +174,6 @@ const Certificates = () => {
                       <Award className="h-6 w-6 text-sky-400" />
                     </div>
                   </div>
-
                   <div className="p-4">
                     <h4 className="text-base sm:text-lg font-semibold mb-1">
                       {cert.title}
@@ -194,7 +190,6 @@ const Certificates = () => {
         ))}
       </div>
 
-      {/* Modal tampil ketika sertifikat diklik */}
       {selectedCert && (
         <div
           className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50"
@@ -210,13 +205,11 @@ const Certificates = () => {
             >
               <X size={24} />
             </button>
-
             <img
               src={selectedCert.image}
               alt={selectedCert.title}
               className="w-full rounded-xl object-contain max-h-[80vh] mb-4"
             />
-
             <div className="text-center">
               <h4 className="text-xl font-bold mb-1">{selectedCert.title}</h4>
               <p className="text-gray-400">{selectedCert.issuer}</p>
