@@ -1,3 +1,5 @@
+import React from "react";
+
 const About = () => {
   return (
     <section id="about" className="py-16 sm:py-20 lg:py-24 bg-muted/30">
@@ -20,8 +22,8 @@ const About = () => {
               {/* Animasi Floating */}
               <div className="relative animate-float">
                 <img
-                  src="src/assets/profile.png"
-                  alt="Riza Sukma"
+                  src="/assets/profile.png"
+                  alt="Riza Sukmawardani"
                   className="rounded-2xl shadow-2xl shadow-cyan-500/20 w-full max-w-sm mx-auto hover:scale-105 transition-transform duration-500 backdrop-blur-sm"
                   style={{
                     filter: "drop-shadow(0 0 30px rgba(6, 182, 212, 0.3))",
