@@ -1,107 +1,120 @@
-import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
 import { Download, Mail } from "lucide-react";
-import profileImage from "@/assets/profile.jpg";
+import { Button } from "@/components/ui/button";
 
 const Hero = () => {
-  const roles = ["Web Developer", "UI/UX Designer", "AI Enthusiast"];
-  const [currentRole, setCurrentRole] = useState(0);
-  const [displayText, setDisplayText] = useState("");
+  const [typedText, setTypedText] = useState("");
+  const roles = [
+    "Web Development",
+    "Desainer UI/UX",
+    "Mobile Development",
+    "IT Administrator",
+  ];
+  const [roleIndex, setRoleIndex] = useState(0);
+  const [charIndex, setCharIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
 
+  // Efek mengetik (typing effect)
   useEffect(() => {
-    const handleTyping = () => {
-      const currentFullText = roles[currentRole];
-      
-      if (!isDeleting) {
-        if (displayText.length < currentFullText.length) {
-          setDisplayText(currentFullText.substring(0, displayText.length + 1));
-        } else {
-          setTimeout(() => setIsDeleting(true), 2000);
-        }
-      } else {
-        if (displayText.length > 0) {
-          setDisplayText(currentFullText.substring(0, displayText.length - 1));
-        } else {
+    const currentRole = roles[roleIndex];
+    const timeout = setTimeout(
+      () => {
+        if (!isDeleting && charIndex < currentRole.length) {
+          setTypedText(currentRole.substring(0, charIndex + 1));
+          setCharIndex(charIndex + 1);
+        } else if (isDeleting && charIndex > 0) {
+          setTypedText(currentRole.substring(0, charIndex - 1));
+          setCharIndex(charIndex - 1);
+        } else if (!isDeleting && charIndex === currentRole.length) {
+          setTimeout(() => setIsDeleting(true), 1500);
+        } else if (isDeleting && charIndex === 0) {
           setIsDeleting(false);
-          setCurrentRole((prev) => (prev + 1) % roles.length);
+          setRoleIndex((roleIndex + 1) % roles.length);
         }
-      }
-    };
+      },
+      isDeleting ? 50 : 100
+    );
 
-    const timeout = setTimeout(handleTyping, isDeleting ? 50 : 100);
     return () => clearTimeout(timeout);
-  }, [displayText, isDeleting, currentRole]);
+  }, [charIndex, isDeleting, roleIndex, roles]);
 
-  const scrollToContact = () => {
-    const element = document.getElementById("contact");
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
     }
   };
 
+  // Download CV
+  const downloadCV = () => {
+    const link = document.createElement("a");
+    link.href = "/CV_Riza_Sukma.pdf";
+    link.download = "CV_Riza_Sukma.pdf";
+    link.click();
+  };
+
   return (
-    <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16">
-      {/* Gradient Background */}
-      <div className="absolute inset-0 bg-[var(--gradient-hero)]" />
-      
-      {/* Animated Glow Effect */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/10 rounded-full blur-3xl animate-pulse" />
-
+    <section
+      id="home"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16 bg-gradient-to-b from-gray-900 via-gray-900/90 to-gray-800"
+    >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-center space-y-8 animate-fade-in">
-          {/* Profile Image */}
-          <div className="relative inline-block">
-            <div className="absolute inset-0 bg-primary/20 rounded-full blur-2xl" />
-            <img
-              src={profileImage}
-              alt="Jatnika - Web Developer"
-              className="relative w-40 h-40 sm:w-48 sm:h-48 lg:w-56 lg:h-56 rounded-full object-cover border-4 border-primary/30 mx-auto shadow-2xl"
-            />
-          </div>
+        <div className="max-w-3xl mx-auto text-center">
+          <h1
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 text-white"
+            data-aos="fade-up"
+          >
+            Halo, Saya{" "}
+            <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+              Riza Sukma
+            </span>
+          </h1>
 
-          {/* Name and Title */}
-          <div className="space-y-4">
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold">
-              Hi, I'm <span className="text-primary">Jatnika</span>
-            </h1>
-            <div className="h-8 sm:h-10">
-              <p className="text-xl sm:text-2xl lg:text-3xl text-muted-foreground">
-                <span className="text-primary">{displayText}</span>
-                <span className="animate-pulse">|</span>
-              </p>
-            </div>
-            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
-              Creative Web Developer & AI Enthusiast crafting beautiful, user-focused digital experiences
+          <div
+            className="h-12 sm:h-14 mb-6 sm:mb-8"
+            data-aos="fade-up"
+            data-aos-delay="100"
+          >
+            <p className="text-lg sm:text-xl md:text-2xl text-gray-300">
+              <span className="text-blue-400 font-semibold">{typedText}</span>
+              <span className="animate-pulse">|</span>
             </p>
           </div>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <p
+            className="text-base sm:text-lg text-gray-400 mb-8 sm:mb-12 max-w-2xl mx-auto px-4"
+            data-aos="fade-up"
+            data-aos-delay="200"
+          >
+            Pengembang Web Kreatif & Penggiat AI yang bersemangat membangun
+            aplikasi web modern dan elegan dengan kode bersih dan desain yang
+            berfokus pada pengguna.
+          </p>
+
+          <div
+            className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4"
+            data-aos="fade-up"
+            data-aos-delay="300"
+          >
             <Button
               size="lg"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 text-lg font-semibold shadow-lg hover:shadow-[var(--shadow-glow)] transition-all duration-300 hover:scale-105"
-              onClick={scrollToContact}
+              onClick={() => scrollToSection("contact")}
+              className="bg-blue-500 text-white hover:bg-blue-600 shadow-lg group w-full sm:w-auto transition-all"
             >
-              <Mail className="mr-2" size={20} />
-              Hire Me
+              <Mail className="mr-2 h-5 w-5" />
+              Hubungi Saya
             </Button>
+
             <Button
               size="lg"
               variant="outline"
-              className="border-primary text-primary hover:bg-primary hover:text-primary-foreground px-8 py-6 text-lg font-semibold transition-all duration-300 hover:scale-105"
+              onClick={downloadCV}
+              className="border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white transition-all w-full sm:w-auto shadow-lg"
             >
-              <Download className="mr-2" size={20} />
-              Download CV
+              <Download className="mr-2 h-5 w-5" />
+              Unduh CV
             </Button>
           </div>
-        </div>
-      </div>
-
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-        <div className="w-6 h-10 border-2 border-primary rounded-full flex justify-center">
-          <div className="w-1 h-3 bg-primary rounded-full mt-2 animate-pulse" />
         </div>
       </div>
     </section>

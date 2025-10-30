@@ -1,81 +1,106 @@
-import { Code2, Palette, Brain, Rocket } from "lucide-react";
-
 const About = () => {
-  const skills = [
-    { name: "HTML/CSS", level: 95 },
-    { name: "JavaScript", level: 90 },
-    { name: "React", level: 88 },
-    { name: "Laravel", level: 85 },
-    { name: "UI/UX Design", level: 82 },
-    { name: "AI Tools", level: 80 },
-  ];
-
-  const highlights = [
-    { icon: Code2, title: "Clean Code", description: "Writing maintainable and scalable code" },
-    { icon: Palette, title: "Modern Design", description: "Creating beautiful user interfaces" },
-    { icon: Brain, title: "AI Integration", description: "Leveraging AI for smarter solutions" },
-    { icon: Rocket, title: "Performance", description: "Optimized for speed and efficiency" },
-  ];
-
   return (
-    <section className="py-20 lg:py-32 bg-background">
+    <section id="about" className="py-16 sm:py-20 lg:py-24 bg-muted/30">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
-            About <span className="text-primary">Me</span>
+        <div className="max-w-6xl mx-auto">
+          {/* Judul Section */}
+          <h2
+            className="text-3xl sm:text-4xl md:text-5xl font-bold mb-12 sm:mb-16 text-center"
+            data-aos="fade-up"
+          >
+            Tentang Saya
           </h2>
-          <div className="w-20 h-1 bg-primary mx-auto" />
-        </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Left Column - Bio */}
-          <div className="space-y-6">
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              I'm a passionate web developer with a keen eye for design and a love for creating
-              seamless digital experiences. With expertise in modern web technologies and a
-              continuous drive to learn, I transform ideas into elegant, functional solutions.
-            </p>
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              My approach combines clean code practices with user-focused design, ensuring every
-              project not only looks great but performs exceptionally. I believe in the power of
-              technology to solve real-world problems and create meaningful impact.
-            </p>
+          <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-center">
+            {/* Gambar Profil */}
+            <div data-aos="fade-right" className="relative">
+              {/* Efek Glow Latar */}
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/30 to-blue-500/30 rounded-2xl blur-3xl animate-pulse"></div>
 
-            {/* Highlights Grid */}
-            <div className="grid sm:grid-cols-2 gap-4 pt-6">
-              {highlights.map((item, index) => {
-                const Icon = item.icon;
-                return (
-                  <div
-                    key={index}
-                    className="bg-card p-4 rounded-lg border border-border hover:border-primary/50 transition-all duration-300 hover:shadow-[var(--shadow-glow)]"
-                  >
-                    <Icon className="text-primary mb-2" size={24} />
-                    <h3 className="font-semibold mb-1">{item.title}</h3>
-                    <p className="text-sm text-muted-foreground">{item.description}</p>
-                  </div>
-                );
-              })}
+              {/* Animasi Floating */}
+              <div className="relative animate-float">
+                <img
+                  src="src/assets/profile.png"
+                  alt="Riza Sukma"
+                  className="rounded-2xl shadow-2xl shadow-cyan-500/20 w-full max-w-sm mx-auto hover:scale-105 transition-transform duration-500 backdrop-blur-sm"
+                  style={{
+                    filter: "drop-shadow(0 0 30px rgba(6, 182, 212, 0.3))",
+                    opacity: 0.95,
+                  }}
+                />
+              </div>
             </div>
-          </div>
 
-          {/* Right Column - Skills */}
-          <div className="space-y-6">
-            <h3 className="text-2xl font-bold mb-6">My Skills</h3>
-            {skills.map((skill, index) => (
-              <div key={index} className="space-y-2">
-                <div className="flex justify-between items-center">
-                  <span className="font-medium">{skill.name}</span>
-                  <span className="text-primary font-semibold">{skill.level}%</span>
+            {/* Deskripsi Tentang Saya */}
+            <div data-aos="fade-left">
+              <h3 className="text-2xl sm:text-3xl font-semibold mb-4 sm:mb-6">
+                Bersemangat Menciptakan Solusi Mobile yang Adaptif dan Berbasis
+                Data, serta Tentang Desain yang Bersih dan Berfokus pada
+                Pengguna.
+              </h3>
+
+              <p className="text-muted-foreground mb-4 sm:mb-6 text-sm sm:text-base">
+                Halo, saya <b>Riza Sukmawardani</b>, seorang Mobile Developer
+                dengan latar belakang keahlian lintas-fungsi. Saya bersemangat
+                membangun aplikasi mobile yang tidak hanya intuitif dan elegan,
+                tetapi juga didukung oleh proses yang terstruktur dan keputusan
+                berbasis data.
+              </p>
+
+              <p className="text-muted-foreground mb-6 sm:mb-8 text-sm sm:text-base">
+                Perjalanan karir saya memungkinkan saya menggabungkan keahlian
+                inti di bidang Mobile Development dengan wawasan mendalam dari
+                Front End, Data Analysis, dan Administrasi. Pendekatan saya
+                selalu berfokus pada kualitas, efisiensi, dan pengembangan
+                berkelanjutan.
+              </p>
+
+              {/* Daftar Poin */}
+              <div className="space-y-6">
+                {/* Fokus & Kekuatan */}
+                <div className="flex items-start gap-3">
+                  <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0" />
+                  <div>
+                    <h4 className="font-semibold mb-1">
+                      💡 Fokus dan Kekuatan Lintas-Fungsi
+                    </h4>
+                    <ul className="text-sm text-muted-foreground list-decimal list-inside space-y-1">
+                      <li>
+                        <b>Mobile Development:</b> Adaptif terhadap teknologi
+                        terbaru dan berfokus pada antarmuka yang mulus dan
+                        user-friendly.
+                      </li>
+                      <li>
+                        <b>Data Analysis:</b> Menganalisis metrik pengguna untuk
+                        mengoptimalkan fitur dan pengalaman aplikasi.
+                      </li>
+                      <li>
+                        <b>Administrasi & Organisasi:</b> Kode yang terstruktur,
+                        dokumentasi rapi, dan manajemen proyek efisien.
+                      </li>
+                    </ul>
+                  </div>
                 </div>
-                <div className="h-3 bg-secondary rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-to-r from-primary to-primary/70 rounded-full transition-all duration-1000 ease-out"
-                    style={{ width: `${skill.level}%` }}
-                  />
+
+                {/* Tujuan & Komitmen */}
+                <div className="flex items-start gap-3">
+                  <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0" />
+                  <div>
+                    <h4 className="font-semibold mb-1">🎯 Tujuan & Komitmen</h4>
+                    <ul className="text-sm text-muted-foreground list-decimal list-inside space-y-1">
+                      <li>
+                        <b>Ketepatan Waktu:</b> Komitmen untuk penyelesaian
+                        proyek sesuai jadwal yang disepakati.
+                      </li>
+                      <li>
+                        <b>Pengembangan Diri:</b> Terus belajar dan beradaptasi
+                        dengan inovasi teknologi terkini.
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </div>

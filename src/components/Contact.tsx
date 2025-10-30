@@ -1,173 +1,269 @@
 import { useState } from "react";
+import {
+  Github,
+  Linkedin,
+  Instagram,
+  Mail,
+  CheckCircle2,
+  XCircle,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Mail, MapPin, Phone, Linkedin, Github, Instagram } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { Label } from "@/components/ui/label";
 
 const Contact = () => {
-  const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    subject: "",
     message: "",
   });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [notification, setNotification] = useState<{
+    type: "success" | "error" | null;
+    message: string;
+  }>({ type: null, message: "" });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    // Basic validation
-    if (!formData.name || !formData.email || !formData.message) {
-      toast({
-        title: "Error",
-        description: "Please fill in all required fields",
-        variant: "destructive",
-      });
-      return;
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
+
+    if (!formData.name.trim()) newErrors.name = "Nama wajib diisi";
+    if (!formData.email.trim()) {
+      newErrors.email = "Email wajib diisi";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Format email tidak valid";
     }
+    if (!formData.message.trim()) newErrors.message = "Pesan wajib diisi";
 
-    // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) {
-      toast({
-        title: "Error",
-        description: "Please enter a valid email address",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    toast({
-      title: "Success!",
-      description: "Your message has been sent successfully. I'll get back to you soon!",
-    });
-
-    setFormData({ name: "", email: "", subject: "", message: "" });
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
-  const contactInfo = [
-    { icon: Mail, label: "Email", value: "jatnika@example.com" },
-    { icon: Phone, label: "Phone", value: "+62 123 4567 890" },
-    { icon: MapPin, label: "Location", value: "Jakarta, Indonesia" },
-  ];
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-  const socialLinks = [
-    { icon: Linkedin, url: "#", label: "LinkedIn" },
-    { icon: Github, url: "#", label: "GitHub" },
-    { icon: Instagram, url: "#", label: "Instagram" },
-  ];
+    if (!validateForm()) return;
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch("https://formspree.io/f/movkgdbe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setNotification({
+          type: "success",
+          message:
+            "Pesan berhasil dikirim! Terima kasih sudah menghubungi saya 😊",
+        });
+        setFormData({ name: "", email: "", message: "" });
+      } else {
+        setNotification({
+          type: "error",
+          message: "Terjadi kesalahan saat mengirim pesan. Coba lagi nanti.",
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      setNotification({
+        type: "error",
+        message: "Gagal mengirim pesan. Periksa koneksi internet kamu.",
+      });
+    } finally {
+      setIsSubmitting(false);
+      setTimeout(() => setNotification({ type: null, message: "" }), 3000);
+    }
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (errors[e.target.name]) {
+      setErrors({ ...errors, [e.target.name]: "" });
+    }
+  };
 
   return (
-    <section className="py-20 lg:py-32 bg-background">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
-            Get In <span className="text-primary">Touch</span>
-          </h2>
-          <div className="w-20 h-1 bg-primary mx-auto mb-8" />
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Have a project in mind? Let's work together to bring your ideas to life
-          </p>
+    <section
+      id="contact"
+      className="py-16 sm:py-20 lg:py-24 bg-muted/30 relative"
+    >
+      {/* Notification Pop-up */}
+      {notification.type && (
+        <div
+          className={`fixed top-6 left-1/2 transform -translate-x-1/2 z-50 px-6 py-3 rounded-xl shadow-lg flex items-center gap-2 transition-all duration-500 ${
+            notification.type === "success"
+              ? "bg-green-600 text-white"
+              : "bg-red-600 text-white"
+          }`}
+        >
+          {notification.type === "success" ? (
+            <CheckCircle2 className="w-5 h-5" />
+          ) : (
+            <XCircle className="w-5 h-5" />
+          )}
+          <p className="font-medium">{notification.message}</p>
         </div>
+      )}
 
-        <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
-          {/* Contact Info */}
-          <div className="space-y-8">
-            <div>
-              <h3 className="text-2xl font-bold mb-6">Contact Information</h3>
-              <div className="space-y-4">
-                {contactInfo.map((item, index) => {
-                  const Icon = item.icon;
-                  return (
-                    <div key={index} className="flex items-start gap-4">
-                      <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <Icon className="text-primary" size={20} />
-                      </div>
-                      <div>
-                        <p className="font-semibold mb-1">{item.label}</p>
-                        <p className="text-muted-foreground">{item.value}</p>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Social Links */}
-            <div>
-              <h3 className="text-xl font-bold mb-4">Follow Me</h3>
-              <div className="flex gap-4">
-                {socialLinks.map((social, index) => {
-                  const Icon = social.icon;
-                  return (
-                    <a
-                      key={index}
-                      href={social.url}
-                      aria-label={social.label}
-                      className="w-12 h-12 bg-card border border-border hover:border-primary rounded-lg flex items-center justify-center transition-all duration-300 hover:shadow-[var(--shadow-glow)] hover:-translate-y-1"
-                    >
-                      <Icon className="text-primary" size={20} />
-                    </a>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Map Placeholder */}
-            <div className="bg-card border border-border rounded-lg overflow-hidden h-64">
-              <div className="w-full h-full bg-muted flex items-center justify-center">
-                <MapPin className="text-muted-foreground" size={48} />
-              </div>
-            </div>
-          </div>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto">
+          <h2
+            className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-center"
+            data-aos="fade-up"
+          >
+            Mari Terhubung
+          </h2>
+          <p
+            className="text-muted-foreground text-center mb-12 sm:mb-16 max-w-2xl mx-auto text-sm sm:text-base px-4"
+            data-aos="fade-up"
+            data-aos-delay="100"
+          >
+            Punya proyek dalam pikiran? Mari bekerja sama untuk mewujudkan ide
+            Anda.
+          </p>
 
           {/* Contact Form */}
-          <div className="bg-card p-8 rounded-lg border border-border">
-            <form onSubmit={handleSubmit} className="space-y-6">
+          <form
+            onSubmit={handleSubmit}
+            className="bg-card rounded-2xl p-6 sm:p-8 shadow-card border border-border mb-12"
+            data-aos="fade-up"
+            data-aos-delay="200"
+          >
+            <div className="space-y-6">
               <div>
+                <Label htmlFor="name">Nama</Label>
                 <Input
-                  placeholder="Your Name *"
+                  id="name"
+                  name="name"
                   value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="bg-background border-border focus:border-primary"
+                  onChange={handleChange}
+                  placeholder="Nama Anda"
+                  className={errors.name ? "border-destructive" : ""}
                 />
+                {errors.name && (
+                  <p className="text-sm text-destructive mt-1">{errors.name}</p>
+                )}
               </div>
+
               <div>
+                <Label htmlFor="email">Email</Label>
                 <Input
+                  id="email"
+                  name="email"
                   type="email"
-                  placeholder="Your Email *"
                   value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="bg-background border-border focus:border-primary"
+                  onChange={handleChange}
+                  placeholder="email.anda@contoh.com"
+                  className={errors.email ? "border-destructive" : ""}
                 />
+                {errors.email && (
+                  <p className="text-sm text-destructive mt-1">
+                    {errors.email}
+                  </p>
+                )}
               </div>
+
               <div>
-                <Input
-                  placeholder="Subject"
-                  value={formData.subject}
-                  onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                  className="bg-background border-border focus:border-primary"
-                />
-              </div>
-              <div>
+                <Label htmlFor="message">Pesan</Label>
                 <Textarea
-                  placeholder="Your Message *"
+                  id="message"
+                  name="message"
                   value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className="bg-background border-border focus:border-primary min-h-[150px] resize-none"
+                  onChange={handleChange}
+                  placeholder="Ceritakan tentang proyek Anda..."
+                  rows={5}
+                  className={errors.message ? "border-destructive" : ""}
                 />
+                {errors.message && (
+                  <p className="text-sm text-destructive mt-1">
+                    {errors.message}
+                  </p>
+                )}
               </div>
+
               <Button
                 type="submit"
-                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground py-6 text-lg font-semibold shadow-lg hover:shadow-[var(--shadow-glow)] transition-all duration-300"
+                size="lg"
+                className="w-full bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-300"
+                disabled={isSubmitting}
               >
-                Send Message
+                {isSubmitting ? "Mengirim..." : "Kirim Pesan"}
               </Button>
-            </form>
+            </div>
+          </form>
+
+          {/* Social Buttons */}
+          <div
+            className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4"
+            data-aos="fade-up"
+            data-aos-delay="300"
+          >
+            <Button
+              variant="outline"
+              className="h-auto py-4 flex-col gap-2 hover:border-primary hover:bg-primary/5 transition-all"
+              asChild
+            >
+              <a
+                href="https://github.com/galaxiana04"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Github className="h-6 w-6" />
+                <span className="font-semibold">GitHub</span>
+              </a>
+            </Button>
+            <Button
+              variant="outline"
+              className="h-auto py-4 flex-col gap-2 hover:border-primary hover:bg-primary/5 transition-all"
+              asChild
+            >
+              <a
+                href="http://www.linkedin.com/in/riza-sukmawardani-532685288"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Linkedin className="h-6 w-6" />
+                <span className="font-semibold">LinkedIn</span>
+              </a>
+            </Button>
+            <Button
+              variant="outline"
+              className="h-auto py-4 flex-col gap-2 hover:border-primary hover:bg-primary/5 transition-all"
+              asChild
+            >
+              <a
+                href="https://www.instagram.com/rzaskma_29/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Instagram className="h-6 w-6" />
+                <span className="font-semibold">Instagram</span>
+              </a>
+            </Button>
+            <Button
+              variant="outline"
+              className="h-auto py-4 flex-col gap-2 hover:border-primary hover:bg-primary/5 transition-all"
+              asChild
+            >
+              <a href="mailto:rizasukmaaa@gmail.com">
+                <Mail className="h-6 w-6" />
+                <span className="font-semibold">Email</span>
+              </a>
+            </Button>
           </div>
         </div>
       </div>
+
+      <footer className="mt-20 pt-8 border-t border-border">
+        <p className="text-center text-sm text-muted-foreground">
+          © 2025 Riza Sukma. Hak cipta dilindungi.
+        </p>
+      </footer>
     </section>
   );
 };
