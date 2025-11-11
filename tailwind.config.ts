@@ -1,14 +1,23 @@
 import type { Config } from "tailwindcss";
+import tailwindcssAnimate from "tailwindcss-animate";
 
-export default {
+const config: Config = {
   darkMode: ["class"],
-  content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
-  prefix: "",
+  content: [
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+  ],
   theme: {
     container: {
       center: true,
       padding: "2rem",
       screens: {
+        sm: "640px",
+        md: "768px",
+        lg: "1024px",
+        xl: "1280px",
         "2xl": "1400px",
       },
     },
@@ -58,34 +67,81 @@ export default {
           ring: "hsl(var(--sidebar-ring))",
         },
       },
+
+      // 🧩 Border radius
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+
+      // 🎞️ Animasi tambahan
       keyframes: {
         "accordion-down": {
-          from: {
-            height: "0",
-          },
-          to: {
-            height: "var(--radix-accordion-content-height)",
-          },
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
         },
         "accordion-up": {
-          from: {
-            height: "var(--radix-accordion-content-height)",
-          },
-          to: {
-            height: "0",
-          },
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+        fadeIn: {
+          from: { opacity: "0" },
+          to: { opacity: "1" },
+        },
+        fadeOut: {
+          from: { opacity: "1" },
+          to: { opacity: "0" },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        fadeIn: "fadeIn 0.3s ease-in",
+        fadeOut: "fadeOut 0.3s ease-out",
+      },
+
+      // 📄 Ukuran khusus untuk export PDF A4
+      width: {
+        a4: "210mm",
+      },
+      height: {
+        a4: "297mm",
+      },
+
+      // 📱 Font tambahan agar cocok untuk portofolio
+      fontFamily: {
+        sans: ["Inter", "Poppins", "ui-sans-serif", "system-ui"],
+        mono: ["JetBrains Mono", "ui-monospace", "SFMono-Regular"],
+      },
+
+      // 🌈 Bayangan & transisi halus
+      boxShadow: {
+        card: "0 4px 12px rgba(0,0,0,0.08)",
+        hover: "0 6px 18px rgba(0,0,0,0.12)",
+      },
+      transitionProperty: {
+        smooth: "all 0.3s ease",
+      },
+
+      // ✨ Ukuran font global & responsif
+      fontSize: {
+        xs: ["0.75rem", { lineHeight: "1rem" }],    // 12px
+        sm: ["0.875rem", { lineHeight: "1.25rem" }], // 14px
+        base: ["1rem", { lineHeight: "1.6" }],      // 16px
+        lg: ["1.125rem", { lineHeight: "1.75" }],   // 18px
+        xl: ["1.25rem", { lineHeight: "1.8" }],     // 20px
+        "2xl": ["1.5rem", { lineHeight: "2rem" }],  // 24px
+        "3xl": ["1.875rem", { lineHeight: "2.25rem" }], // 30px
+        "4xl": ["2.25rem", { lineHeight: "2.5rem" }],   // 36px
+        "5xl": ["3rem", { lineHeight: "1" }],       // 48px
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
-} satisfies Config;
+  plugins: [tailwindcssAnimate],
+
+  // 📦 Menambahkan ukuran font global di base
+  corePlugins: {},
+};
+
+export default config;

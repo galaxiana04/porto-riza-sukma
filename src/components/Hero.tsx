@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import { Download, Mail } from "lucide-react";
+import { Mail, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const Hero = () => {
   const [typedText, setTypedText] = useState("");
   const roles = [
-    "Web Development",
+    "Front End Web Developer",
     "Desainer UI/UX",
-    "Mobile Development",
+    "Mobile Developer",
     "IT Administrator",
   ];
   const [roleIndex, setRoleIndex] = useState(0);
@@ -38,19 +38,17 @@ const Hero = () => {
     return () => clearTimeout(timeout);
   }, [charIndex, isDeleting, roleIndex, roles]);
 
+  // Fungsi buka CV asli
+  const viewCV = () => {
+    window.open("/assets/CV/CV_Riza Sukmawardani.pdf", "_blank");
+  };
+
+  // Fungsi scroll ke kontak
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
     }
-  };
-
-  // Download CV
-  const downloadCV = () => {
-    const link = document.createElement("a");
-    link.href = "/CV_Riza_Sukma.pdf";
-    link.download = "CV_Riza_Sukma.pdf";
-    link.click();
   };
 
   return (
@@ -108,11 +106,11 @@ const Hero = () => {
             <Button
               size="lg"
               variant="outline"
-              onClick={downloadCV}
-              className="border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white transition-all w-full sm:w-auto shadow-lg"
+              onClick={viewCV}
+              className="border-2 border-blue-400 text-blue-400 hover:bg-blue-500 hover:text-white transition-all w-full sm:w-auto shadow-lg"
             >
-              <Download className="mr-2 h-5 w-5" />
-              Unduh CV
+              <Eye className="mr-2 h-5 w-5" />
+              Lihat CV
             </Button>
           </div>
         </div>

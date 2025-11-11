@@ -1,67 +1,29 @@
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
+import html2pdf from "html2pdf.js";
 
-export const generatePortfolioPDF = async () => {
-  try {
-    // Show loading toast or indicator
-    const sections = [
-      'hero',
-      'about', 
-      'skills',
-      'portfolio',
-      'services',
-      'testimonials',
-      'contact'
-    ];
+export const downloadPortfolioAsPDF = async () => {
+  const element = document.getElementById("root") || document.body;
 
-    const pdf = new jsPDF('p', 'mm', 'a4');
-    const pageWidth = pdf.internal.pageSize.getWidth();
-    const pageHeight = pdf.internal.pageSize.getHeight();
-    let isFirstPage = true;
+  const opt = {
+    margin: 0,
+    filename: "Portfolio_Riza_Sukmawardani.pdf",
+    image: { type: "jpeg" as const, quality: 1 },
+    html2canvas: {
+  scale: 2,               // resolusi lebih tajam
+  useCORS: true,           // untuk gambar/font cross-origin
+  allowTaint: true,        // biar konten bisa di-capture walau dari origin berbeda
+  scrollY: -window.scrollY // agar posisi scroll tidak memengaruhi capture
+},
 
-    for (const sectionId of sections) {
-      const element = document.getElementById(sectionId);
-      if (!element) continue;
+    jsPDF: {
+      unit: "px",
+      format: [
+        document.documentElement.scrollWidth,
+        document.documentElement.scrollHeight,
+      ] as [number, number],
+      orientation: "portrait" as const,
+    },
+    pagebreak: { mode: ["avoid-all", "css", "legacy"] },
+  };
 
-      // Capture the section as canvas
-      const canvas = await html2canvas(element, {
-        scale: 2,
-        useCORS: true,
-        logging: false,
-        backgroundColor: '#ffffff'
-      });
-
-      const imgData = canvas.toDataURL('image/png');
-      const imgWidth = pageWidth;
-      const imgHeight = (canvas.height * pageWidth) / canvas.width;
-
-      // Add new page if not first
-      if (!isFirstPage) {
-        pdf.addPage();
-      }
-      isFirstPage = false;
-
-      // Add image to PDF
-      let heightLeft = imgHeight;
-      let position = 0;
-
-      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
-
-      // Handle multi-page sections
-      while (heightLeft > 0) {
-        position = heightLeft - imgHeight;
-        pdf.addPage();
-        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-        heightLeft -= pageHeight;
-      }
-    }
-
-    // Save the PDF
-    pdf.save('Portfolio_Jatnika.pdf');
-    return true;
-  } catch (error) {
-    console.error('Error generating PDF:', error);
-    return false;
-  }
+  await html2pdf().set(opt).from(element).save();
 };

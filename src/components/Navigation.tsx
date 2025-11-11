@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Menu, X, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ThemeToggle from "./ThemeToggle";
-import { generatePortfolioPDF } from "@/lib/generatePDF";
+import { downloadPortfolioAsPDF } from "@/lib/generatePDF"; // ✅ pastikan nama fungsi sama
 import { useToast } from "@/hooks/use-toast";
 
 const Navigation = () => {
@@ -12,9 +12,7 @@ const Navigation = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -27,25 +25,28 @@ const Navigation = () => {
     }
   };
 
+  // ✅ Fungsi download PDF
   const handleDownloadPDF = async () => {
-    setIsGenerating(true);
-    toast({
-      title: "Menghasilkan PDF...",
-      description: "Mohon tunggu, portfolio sedang dikonversi ke PDF",
-    });
+    try {
+      setIsGenerating(true);
+      toast({
+        title: "Menghasilkan PDF...",
+        description: "Mohon tunggu, portfolio sedang dikonversi ke PDF.",
+      });
 
-    const success = await generatePortfolioPDF();
-    
-    setIsGenerating(false);
-    if (success) {
+      await downloadPortfolioAsPDF(); // ✅ pakai nama fungsi yang benar
+      setIsGenerating(false);
+
       toast({
         title: "Berhasil!",
-        description: "Portfolio telah diunduh sebagai PDF",
+        description: "Portfolio telah diunduh sebagai PDF.",
       });
-    } else {
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+      setIsGenerating(false);
       toast({
-        title: "Error",
-        description: "Gagal menghasilkan PDF. Silakan coba lagi.",
+        title: "Gagal!",
+        description: "Terjadi kesalahan saat membuat PDF.",
         variant: "destructive",
       });
     }
@@ -55,9 +56,9 @@ const Navigation = () => {
     { label: "Beranda", id: "hero" },
     { label: "Tentang", id: "about" },
     { label: "Keahlian", id: "skills" },
-    { label: "Projects", id: "Projects" },
+    { label: "Projects", id: "portfolio-section" },
     { label: "Layanan", id: "services" },
-    { label: "Sertifikat & Pengalaman ", id: "Certificate & Experience" },
+    { label: "Sertifikat & Pengalaman", id: "Certificate & Experience" },
     { label: "Kontak", id: "contact" },
   ];
 
@@ -90,37 +91,28 @@ const Navigation = () => {
                 {item.label}
               </Button>
             ))}
-          <button
-            onClick={handleDownloadPDF}
-            disabled={isGenerating}
-            className="hidden md:flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50"
-            title="Download Portfolio PDF"
-          >
-            <Download className="w-4 h-4" />
-            <span>{isGenerating ? "Menghasilkan..." : "Download PDF"}</span>
-          </button>
-          <ThemeToggle />
-        </div>
+            <button
+              onClick={handleDownloadPDF}
+              disabled={isGenerating}
+              className="hidden md:flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50"
+              title="Download Portfolio PDF"
+            >
+              <Download className="w-4 h-4" />
+              <span>{isGenerating ? "Menghasilkan..." : "Download PDF"}</span>
+            </button>
+            <ThemeToggle />
+          </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Navigation */}
           <div className="flex items-center space-x-2 md:hidden">
             <ThemeToggle />
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setIsOpen(!isOpen)}
-              aria-label="Toggle menu"
-            >
-              {isOpen ? (
-                <X className="h-6 w-6" />
-              ) : (
-                <Menu className="h-6 w-6" />
-              )}
+            <Button variant="ghost" size="icon" onClick={() => setIsOpen(!isOpen)}>
+              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </Button>
           </div>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Mobile Menu */}
         {isOpen && (
           <div className="md:hidden pb-4">
             {navItems.map((item) => (

@@ -36,25 +36,27 @@ const About = () => {
             {/* Deskripsi Tentang Saya */}
             <div data-aos="fade-left">
               <h3 className="text-2xl sm:text-3xl font-semibold mb-4 sm:mb-6">
-                Bersemangat Menciptakan Solusi Mobile yang Adaptif dan Berbasis
-                Data, serta Tentang Desain yang Bersih dan Berfokus pada
-                Pengguna.
+                Bersemangat menciptakan solusi mobile yang adaptif, berbasis
+                data, serta berfokus pada desain yang bersih dan pengalaman
+                pengguna yang optimal.
               </h3>
 
               <p className="text-muted-foreground mb-4 sm:mb-6 text-sm sm:text-base">
-                Halo, saya <b>Riza Sukmawardani</b>, seorang Mobile Developer
-                dengan latar belakang keahlian lintas-fungsi. Saya bersemangat
-                membangun aplikasi mobile yang tidak hanya intuitif dan elegan,
-                tetapi juga didukung oleh proses yang terstruktur dan keputusan
-                berbasis data.
+                Halo, saya <b>Riza Sukmawardani</b>, seorang{" "}
+                <b>Mobile Developer </b>
+                dan <b>Front End Web Developer</b> dengan keahlian lintas
+                bidang. Saya bersemangat dalam membangun aplikasi yang tidak
+                hanya intuitif dan elegan, tetapi juga didukung oleh proses yang
+                terstruktur serta keputusan berbasis data.
               </p>
 
               <p className="text-muted-foreground mb-6 sm:mb-8 text-sm sm:text-base">
-                Perjalanan karir saya memungkinkan saya menggabungkan keahlian
-                inti di bidang Mobile Development dengan wawasan mendalam dari
-                Front End, Data Analysis, dan Administrasi. Pendekatan saya
-                selalu berfokus pada kualitas, efisiensi, dan pengembangan
-                berkelanjutan.
+                Perjalanan karier saya memperkaya kemampuan dalam menggabungkan
+                keahlian inti di bidang <b>Mobile Development</b> dengan wawasan
+                dari
+                <b> Front End Web Development</b> dan
+                <b> Administrasi Proyek</b>. Pendekatan saya selalu berfokus
+                pada kualitas, efisiensi, dan pengembangan berkelanjutan.
               </p>
 
               {/* Daftar Poin */}
@@ -64,21 +66,23 @@ const About = () => {
                   <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0" />
                   <div>
                     <h4 className="font-semibold mb-1">
-                      💡 Fokus dan Kekuatan Lintas-Fungsi
+                      💡 Fokus dan Kekuatan Lintas Bidang
                     </h4>
                     <ul className="text-sm text-muted-foreground list-decimal list-inside space-y-1">
                       <li>
-                        <b>Mobile Development:</b> Adaptif terhadap teknologi
-                        terbaru dan berfokus pada antarmuka yang mulus dan
-                        user-friendly.
+                        <b>Mobile Development:</b> Selalu adaptif terhadap
+                        teknologi terbaru, berfokus pada antarmuka yang mulus
+                        dan ramah pengguna.
                       </li>
                       <li>
-                        <b>Data Analysis:</b> Menganalisis metrik pengguna untuk
-                        mengoptimalkan fitur dan pengalaman aplikasi.
+                        <b>Front End Web Development:</b> Mengembangkan tampilan
+                        web yang responsif, interaktif, dan modern menggunakan
+                        teknologi seperti React dan Tailwind CSS.
                       </li>
                       <li>
-                        <b>Administrasi & Organisasi:</b> Kode yang terstruktur,
-                        dokumentasi rapi, dan manajemen proyek efisien.
+                        <b>Manajemen & Administrasi:</b> Penulisan kode yang
+                        terstruktur, dokumentasi rapi, serta manajemen proyek
+                        yang efisien.
                       </li>
                     </ul>
                   </div>
@@ -91,12 +95,13 @@ const About = () => {
                     <h4 className="font-semibold mb-1">🎯 Tujuan & Komitmen</h4>
                     <ul className="text-sm text-muted-foreground list-decimal list-inside space-y-1">
                       <li>
-                        <b>Ketepatan Waktu:</b> Komitmen untuk penyelesaian
-                        proyek sesuai jadwal yang disepakati.
+                        <b>Ketepatan Waktu:</b> Berkomitmen menyelesaikan setiap
+                        proyek sesuai jadwal yang telah disepakati.
                       </li>
                       <li>
                         <b>Pengembangan Diri:</b> Terus belajar dan beradaptasi
-                        dengan inovasi teknologi terkini.
+                        dengan perkembangan teknologi terkini untuk menghasilkan
+                        solusi terbaik.
                       </li>
                     </ul>
                   </div>
